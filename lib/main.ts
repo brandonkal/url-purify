@@ -228,11 +228,10 @@ class URLPurify {
 
 let purifyCached: URLPurify | undefined;
 
-
-/** 
+/**
  * call and await init to create a singleton URLPurify instance.
  * It will download rules from rules2.clearurls.xyz.
- * 
+ *
  * Calling a second time will return the already initialized singleton.
  */
 export async function init() {

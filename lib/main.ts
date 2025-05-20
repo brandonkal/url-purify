@@ -225,6 +225,45 @@ class URLPurify {
   };
 }
 
+///// Worker functions
+
+let purifyCached: URLPurify | undefined;
+
+export async function init() {
+	if (purifyCached) return purifyCached;
+	let resolver: (val: unknown) => void;
+	// let rejector: (val: unknown) => void;
+	const promise = new Promise((resolve) => {
+		resolver = resolve;
+		// rejector = reject;
+	});
+	const purify = new URLPurify({
+		hashUrl: 'https://rules2.clearurls.xyz/rules.minify.hash',
+		ruleUrl: 'https://rules2.clearurls.xyz/data.minify.json',
+		onFetchedRules: (_hash, _rules) => {
+			resolver('loaded');
+		},
+	});
+	await promise;
+	purifyCached = purify;
+	return purify;
+}
+
+// from chatGPT. Originally used https://github.com/Quehnie/youtube-id-regex/blob/main/index.js but it didn't work
+const youTubeRegex =
+	/(?:youtube(?:-nocookie)?\.com\/(?:embed\/|(?:watch\?.*?[?&]v=)|(?:v\/)|(?:(?!c\/).+\/)|(?:.*[?&]v=)|(?:\S*?[?&]v=)|\S*?\/)?|youtu\.be\/)([a-zA-Z0-9_-]{6,11})/;
+
+export async function cleanURL(url: string, embed = false) {
+	const purify = await init();
+	const cleanedURL = purify.clearUrl(url, true, false);
+	if (embed && youTubeRegex.test(cleanedURL)) {
+		const yt_id = youTubeRegex.exec(cleanedURL)?.[1];
+		if (!yt_id) return cleanedURL;
+		return `https://www.youtube-nocookie.com/embed/${yt_id}?mute=1&autoplay=1`;
+	}
+	return cleanedURL;
+}
+
 export {
   URLPurify,
   mappings,

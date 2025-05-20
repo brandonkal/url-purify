@@ -5,7 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## Ongoing
-- Rewrite ClearURLs completely form scratch in typescript
+- Rewrite ClearURLs completely from scratch in TypeScript
 - Add features from the milestone [%1](https://gitlab.com/KevinRoebert/ClearUrls/-/milestones/1)
 - Dedicated documentation page like [docs.drasyl.org](https://docs.drasyl.org)
 
@@ -507,7 +507,7 @@ Special thanks to [SunsetTechuila](https://github.com/SunsetTechuila) for provid
 - Require Chrome >= 22
 
 ### Changed
-- Only redirects, if request is of type main or sub frame to prevent security issues on automatically loaded ressource like images
+- Only redirects, if request is of type main or sub frame to prevent security issues on automatically loaded resource like images
 
 ### Fixed
 - Fixed [#253](https://gitlab.com/KevinRoebert/ClearUrls/issues/253)
@@ -786,7 +786,7 @@ Special thanks to [SunsetTechuila](https://github.com/SunsetTechuila) for provid
 
 ### Changed
 - Storage improvements, better performance
-- Splitted core file into multiple pieces for better overview
+- Split core file into multiple pieces for better overview
 - Minimize rules length
 
 ### Fixed

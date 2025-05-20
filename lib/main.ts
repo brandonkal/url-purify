@@ -129,7 +129,7 @@ class URLPurify {
    */
   clearUrl = (url: string, removeFields = true, redirect = true) => {
     let result: ReturnType<
-      InstanceType<typeof Provider>['removeFieldsFormURL']
+      InstanceType<typeof Provider>['removeFieldsFromURL']
     > = {
       url: url,
       redirect: false,
@@ -137,11 +137,11 @@ class URLPurify {
 
     if (removeFields) {
       /*
-       * Call the removeFieldsFormURL method for every provider.
+       * Call the removeFieldsFromURL method for every provider.
        */
       for (const provider of Object.values(this.providers)) {
         if (provider.matchURL(result.url)) {
-          result = provider.removeFieldsFormURL(result.url);
+          result = provider.removeFieldsFromURL(result.url);
         }
 
         /*

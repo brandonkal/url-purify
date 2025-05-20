@@ -221,7 +221,7 @@ class Provider {
    * @param pureUrl   URL as String
    * @return Array with changes and url fields
    */
-  removeFieldsFormURL = (
+  removeFieldsFromURL = (
     pureUrl: string,
   ): {
     url: string;
@@ -239,7 +239,7 @@ class Provider {
 
     /*
      * Expand the url by provider redirections. So no tracking on
-     * url redirections form sites to sites.
+     * url redirections from sites to sites.
      */
     const re = this.getRedirection(url);
     if (re !== null) {

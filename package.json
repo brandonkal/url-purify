@@ -13,7 +13,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc --p ./tsconfig-build.json && vite build",
-    "format": "biome format ./lib",
+    "format": "biome format --write ./lib",
     "check": "biome check ./lib",
     "docs": "npx typedoc"
   },

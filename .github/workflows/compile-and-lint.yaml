@@ -2,9 +2,9 @@ name: Compile and lint
 
 on:
   push:
-    branches: [ "master" ]
+    branches: [ "improve" ]
   pull_request:
-    branches: [ "master" ]
+    branches: [ "improve" ]
 
 jobs:
   build:
@@ -24,10 +24,10 @@ jobs:
         node-version: ${{ matrix.node-version }}
 
     - name: Install deps
-      run: yarn install
+      run: pnpm install
 
     - name: Lint
-      run: yarn format && yarn run check
+      run: pnpm run check
 
     - name: Build
-      run: yarn build
+      run: pnpm build

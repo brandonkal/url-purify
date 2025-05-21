@@ -1,5 +1,5 @@
 import { decodeURL, extractFragments } from './tools';
-import type { SerializedProvider } from './types';
+import type { Cleaned, SerializedProvider } from './types';
 
 class Provider {
 	// @ts-ignore
@@ -215,13 +215,7 @@ class Provider {
 	 * @param pureUrl   URL as String
 	 * @return Array with changes and url fields
 	 */
-	removeFieldsFromURL = (
-		pureUrl: string,
-	): {
-		url: string;
-		changes?: number;
-		redirect?: boolean;
-	} => {
+	removeFieldsFromURL = (pureUrl: string): Cleaned => {
 		let url = pureUrl;
 
 		let changes = 0;
@@ -236,8 +230,10 @@ class Provider {
 			url = decodeURL(re);
 
 			return {
+				url,
+				changes: 0,
 				redirect: true,
-				url: url,
+				embed: false,
 			};
 		}
 
@@ -288,6 +284,8 @@ class Provider {
 		return {
 			changes,
 			url: urlObject.toString(),
+			redirect: false,
+			embed: false,
 		};
 	};
 }

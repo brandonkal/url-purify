@@ -24,7 +24,15 @@ interface SerializedService {
 
 type InstancePickMode = 'random' | 'first';
 
+interface Cleaned {
+	url: string;
+	changes: number;
+	redirect: boolean;
+	embed: boolean;
+}
+
 export type {
+	Cleaned,
 	SerializedRules,
 	SerializedProvider,
 	SerializedServices,

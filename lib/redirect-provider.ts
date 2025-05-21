@@ -1,5 +1,5 @@
 import type { mappings } from './redirect-mappings';
-import type { InstancePickMode, SerializedService } from './types';
+import type { Cleaned, InstancePickMode, SerializedService } from './types';
 
 class RedirectProvider {
 	private urlPattern: RegExp;
@@ -18,7 +18,7 @@ class RedirectProvider {
 
 	matchURL = (url: string) => this.urlPattern.test(url);
 
-	redirectURL = (url: string) => {
+	redirectURL = (url: string): Cleaned => {
 		const urlObject = new URL(url);
 
 		const domain =
@@ -30,6 +30,8 @@ class RedirectProvider {
 			return {
 				url,
 				changes: 0,
+				redirect: true,
+				embed: false,
 			};
 		}
 
@@ -41,6 +43,8 @@ class RedirectProvider {
 		return {
 			url: urlObject.toString(),
 			changes: 1,
+			redirect: true,
+			embed: false,
 		};
 	};
 }

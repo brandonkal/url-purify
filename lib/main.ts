@@ -3,6 +3,7 @@ import { mappings } from './redirect-mappings';
 import { RedirectProvider } from './redirect-provider';
 import { sha256 } from './tools';
 import type {
+	Cleaned,
 	InstancePickMode,
 	SerializedProvider,
 	SerializedRules,
@@ -126,12 +127,13 @@ class URLPurify {
 	 * @param redirect - Whether to redirect to one of available proxy services.
 	 * @returns URL without tracking elements.
 	 */
-	clearUrl = (url: string, removeFields = true, redirect = true) => {
-		let result: ReturnType<
-			InstanceType<typeof Provider>['removeFieldsFromURL']
-		> = {
+	clearUrl = (url: string, removeFields = true, redirect = true): Cleaned => {
+		let totalChanges = 0;
+		let result: Cleaned = {
 			url: url,
 			redirect: false,
+			changes: 0,
+			embed: false,
 		};
 
 		if (removeFields) {
@@ -141,13 +143,19 @@ class URLPurify {
 			for (const provider of Object.values(this.providers)) {
 				if (provider.matchURL(result.url)) {
 					result = provider.removeFieldsFromURL(result.url);
+					if (result.changes) totalChanges += result.changes;
 				}
 
 				/*
 				 * Ensure that the function doesn't get into a loop.
 				 */
 				if (result.redirect) {
-					return result.url;
+					return {
+						url: result.url,
+						changes: totalChanges,
+						redirect: result.redirect,
+						embed: false,
+					};
 				}
 			}
 		}
@@ -156,12 +164,18 @@ class URLPurify {
 			for (const provider of Object.values(this.redirectProviders)) {
 				if (provider.matchURL(result.url)) {
 					result = provider.redirectURL(result.url);
+					if (result.changes) totalChanges += result.changes;
 				}
 			}
 		}
 
 		// Default case
-		return result.url;
+		return {
+			url: result.url,
+			changes: totalChanges,
+			embed: false,
+			redirect: false,
+		};
 	};
 
 	/**
@@ -259,18 +273,20 @@ const youTubeRegex =
 /** cleanURL provides a simple function to clean a URL. It calls init() if required. Set embed to true to optimize YouTube links for embedding */
 export async function cleanURL(url: string, embed = false) {
 	const purify = await init();
-	const cleanedURL = purify.clearUrl(url, true, false);
-	if (embed && youTubeRegex.test(cleanedURL)) {
-		const yt_id = youTubeRegex.exec(cleanedURL)?.[1];
-		if (!yt_id) return cleanedURL;
-		return `https://www.youtube-nocookie.com/embed/${yt_id}?mute=1&autoplay=1`;
+	const cleaned = purify.clearUrl(url, true, false);
+	if (embed && youTubeRegex.test(cleaned.url)) {
+		const yt_id = youTubeRegex.exec(cleaned.url)?.[1];
+		if (!yt_id) return cleaned;
+		cleaned.url = `https://www.youtube-nocookie.com/embed/${yt_id}?mute=1&autoplay=1`;
+		cleaned.embed = true;
 	}
-	return cleanedURL;
+	return cleaned;
 }
 
 export {
 	URLPurify,
 	mappings,
+	type Cleaned,
 	type SerializedProvider,
 	type SerializedRules,
 	type SerializedServices,

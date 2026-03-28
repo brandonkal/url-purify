@@ -71,4 +71,4 @@ const sha256 = async (message: string) => {
 	return hashArray.map((b) => b.toString(16).padStart(2, '0')).join('');
 };
 
-export { extractFragments, decodeURL, sha256 };
+export { decodeURL, extractFragments, sha256 };

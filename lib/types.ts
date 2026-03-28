@@ -33,9 +33,9 @@ interface Cleaned {
 
 export type {
 	Cleaned,
-	SerializedRules,
-	SerializedProvider,
-	SerializedServices,
-	SerializedService,
 	InstancePickMode,
+	SerializedProvider,
+	SerializedRules,
+	SerializedService,
+	SerializedServices,
 };

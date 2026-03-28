@@ -284,11 +284,11 @@ export async function cleanURL(url: string, embed = false) {
 }
 
 export {
-	URLPurify,
-	mappings,
 	type Cleaned,
+	mappings,
 	type SerializedProvider,
 	type SerializedRules,
 	type SerializedServices,
+	URLPurify,
 	type URLPurifyConfig,
 };

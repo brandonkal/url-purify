@@ -2,9 +2,9 @@ import { decodeURL, extractFragments } from './tools';
 import type { Cleaned, SerializedProvider } from './types';
 
 class Provider {
-	// @ts-ignore
+	// @ts-expect-error
 	private name: string;
-	// @ts-ignore
+	// @ts-expect-error
 	private urlPattern: RegExp;
 	private enabled_rules: Record<string, boolean> = {};
 	private enabled_exceptions: Record<string, boolean> = {};

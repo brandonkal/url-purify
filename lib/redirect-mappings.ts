@@ -9,7 +9,7 @@ const mappings = [
 	},
 	{
 		name: 'Twitter',
-		urlPattern: '^https?:\\/\\/(www\\.)?twitter\\.com|x\\.com',
+		urlPattern: '^https?:\\/\\/(www\\.)?(twitter\\.com|x\\.com)',
 		targets: ['nitter'],
 	},
 	{

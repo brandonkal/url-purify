@@ -28,7 +28,8 @@ interface Cleaned {
 	url: string;
 	changes: number;
 	redirect: boolean;
-	embed: boolean;
+	embed_url?: string;
+	youtube_id?: string;
 }
 
 export type {

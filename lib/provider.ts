@@ -2,7 +2,6 @@ import { decodeURL, extractFragments } from './tools';
 import type { Cleaned, SerializedProvider } from './types';
 
 class Provider {
-	// @ts-expect-error
 	private name: string;
 	// @ts-expect-error
 	private urlPattern: RegExp;
@@ -233,7 +232,6 @@ class Provider {
 				url,
 				changes: 0,
 				redirect: true,
-				embed: false,
 			};
 		}
 
@@ -285,7 +283,6 @@ class Provider {
 			changes,
 			url: urlObject.toString(),
 			redirect: false,
-			embed: false,
 		};
 	};
 }

@@ -4,10 +4,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## Ongoing
-- Rewrite ClearURLs completely from scratch in TypeScript
-- Add features from the milestone [%1](https://gitlab.com/KevinRoebert/ClearUrls/-/milestones/1)
-- Dedicated documentation page like [docs.drasyl.org](https://docs.drasyl.org)
+# [3.0.0] YouTube parsing
+- BREAKING: embed field removed and replaced with optional embed_url
+- Added: optional embed_url and youtube_id fields
+- Refactored YouTube default URL to not be embed URL as YouTube no longer renders that in full window.
+- Fixed: Twitter detection regex. Unrelated URLs like https://example.com/?next=x.com now handled correctly.
+
+# [2.0.0] Initial Fork Release
 
 ## [1.XX.0] - 2022-XX-XX
 

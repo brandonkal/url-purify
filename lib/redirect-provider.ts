@@ -31,7 +31,6 @@ class RedirectProvider {
 				url,
 				changes: 0,
 				redirect: true,
-				embed: false,
 			};
 		}
 
@@ -44,7 +43,6 @@ class RedirectProvider {
 			url: urlObject.toString(),
 			changes: 1,
 			redirect: true,
-			embed: false,
 		};
 	};
 }

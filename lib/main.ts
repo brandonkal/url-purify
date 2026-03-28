@@ -133,7 +133,6 @@ class URLPurify {
 			url: url,
 			redirect: false,
 			changes: 0,
-			embed: false,
 		};
 
 		if (removeFields) {
@@ -154,7 +153,6 @@ class URLPurify {
 						url: result.url,
 						changes: totalChanges,
 						redirect: result.redirect,
-						embed: false,
 					};
 				}
 			}
@@ -173,7 +171,6 @@ class URLPurify {
 		return {
 			url: result.url,
 			changes: totalChanges,
-			embed: false,
 			redirect: false,
 		};
 	};
@@ -277,8 +274,9 @@ export async function cleanURL(url: string, embed = false) {
 	if (embed && youTubeRegex.test(cleaned.url)) {
 		const yt_id = youTubeRegex.exec(cleaned.url)?.[1];
 		if (!yt_id) return cleaned;
-		cleaned.url = `https://www.youtube-nocookie.com/embed/${yt_id}?mute=1&autoplay=1`;
-		cleaned.embed = true;
+		cleaned.url = `https://www.youtube.com/watch?v=${yt_id}`;
+		cleaned.embed_url = `https://www.youtube-nocookie.com/embed/${yt_id}?mute=1&autoplay=1`;
+		cleaned.youtube_id = yt_id;
 	}
 	return cleaned;
 }

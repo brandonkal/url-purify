@@ -1,5 +1,5 @@
 import { expect, test } from 'vitest';
-import { cleanURL } from './main';
+import { cleanURL, mappings } from './main';
 
 test('main does not add encoding', async () => {
 	const input = 'https://example.com/?arg=1&arg=https://yo.com#hash';
@@ -28,4 +28,21 @@ test('YouTube Convert', async () => {
 		redirect: false,
 		url: 'https://www.youtube-nocookie.com/embed/kPa7bsKwL-c?mute=1&autoplay=1',
 	});
+});
+
+test('Twitter redirect matcher only matches Twitter and X hosts', () => {
+	const twitter = mappings.find((mapping) => mapping.name === 'Twitter');
+
+	expect(twitter).toBeDefined();
+	expect(
+		new RegExp(twitter!.urlPattern, 'i').test('https://twitter.com/foo'),
+	).toBe(true);
+	expect(new RegExp(twitter!.urlPattern, 'i').test('https://x.com/foo')).toBe(
+		true,
+	);
+	expect(
+		new RegExp(twitter!.urlPattern, 'i').test(
+			'https://example.com/?next=x.com',
+		),
+	).toBe(false);
 });

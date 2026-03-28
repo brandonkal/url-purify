@@ -269,14 +269,18 @@ export async function init() {
 const youTubeRegex =
 	/(?:youtube(?:-nocookie)?\.com\/(?:embed\/|(?:watch\?.*?[?&]v=)|(?:v\/)|(?:(?!c\/).+\/)|(?:.*[?&]v=)|(?:\S*?[?&]v=)|\S*?\/)?|youtu\.be\/)([a-zA-Z0-9_-]{6,11})/;
 
-/** cleanURL provides a simple function to clean a URL. It calls init() if required. Set embed to true to optimize YouTube links for embedding */
-export async function cleanURL(url: string, embed = false) {
+/** cleanURL provides a simple function to clean a URL. It calls init() if required. */
+export async function cleanURL(url: string) {
 	const purify = await init();
 	const cleaned = purify.clearUrl(url, true, false);
-	if (embed && youTubeRegex.test(cleaned.url)) {
+	if (youTubeRegex.test(cleaned.url)) {
 		const yt_id = youTubeRegex.exec(cleaned.url)?.[1];
 		if (!yt_id) return cleaned;
-		cleaned.url = `https://www.youtube.com/watch?v=${yt_id}`;
+		const nextUrl = `https://www.youtube.com/watch?v=${yt_id}`;
+		if (cleaned.url !== nextUrl) {
+			cleaned.changes += 1;
+			cleaned.url = nextUrl;
+		}
 		cleaned.embed_url = `https://www.youtube-nocookie.com/embed/${yt_id}?mute=1&autoplay=1`;
 		cleaned.youtube_id = yt_id;
 	}

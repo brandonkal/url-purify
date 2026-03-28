@@ -1,6 +1,6 @@
 {
 	"name": "@brandonkal/url-purify",
-	"version": "3.0.1",
+	"version": "4.0.0",
 	"type": "module",
 	"repository": {
 		"type": "git",
@@ -11,6 +11,7 @@
 		"build": "vite build && pnpm exec tsgo --emitDeclarationOnly",
 		"format": "biome format --write ./lib",
 		"check": "biome check ./lib",
+		"test": "vitest",
 		"docs": "typedoc"
 	},
 	"license": "LGPL-3.0-only",

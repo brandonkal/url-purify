@@ -15,7 +15,6 @@ test('twitter example', async () => {
 	const output = await cleanURL(input);
 	expect(output).toStrictEqual({
 		changes: 2,
-		embed: false,
 		redirect: false,
 		url: 'https://twitter.com/Br_Nowak/status/1586618354307039234',
 	});
@@ -23,12 +22,14 @@ test('twitter example', async () => {
 
 test('YouTube Convert', async () => {
 	const input = 'https://youtu.be/kPa7bsKwL-c?si=redacted';
-	const output = await cleanURL(input, true);
+	const output = await cleanURL(input);
 	expect(output).toStrictEqual({
-		changes: 1,
-		embed: true,
+		changes: 2,
 		redirect: false,
-		url: 'https://www.youtube-nocookie.com/embed/kPa7bsKwL-c?mute=1&autoplay=1',
+		url: 'https://www.youtube.com/watch?v=kPa7bsKwL-c',
+		embed_url:
+			'https://www.youtube-nocookie.com/embed/kPa7bsKwL-c?mute=1&autoplay=1',
+		youtube_id: 'kPa7bsKwL-c',
 	});
 });
 

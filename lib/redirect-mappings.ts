@@ -1,7 +1,13 @@
 // Adapted from Farside
 // https://github.com/benbusby/farside/blob/main/services/mappings.go
 
-const mappings = [
+export interface RedirectMapping {
+	name: string;
+	urlPattern: string;
+	targets: string[];
+}
+
+export const mappings: RedirectMapping[] = [
 	{
 		name: 'YouTube',
 		urlPattern: '^https?:\\/\\/(www\\.)?youtu(\\.be|be\\.com)',
@@ -83,5 +89,3 @@ const mappings = [
 		targets: ['anonymousoverflow'],
 	},
 ];
-
-export { mappings };

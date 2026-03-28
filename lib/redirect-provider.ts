@@ -1,4 +1,4 @@
-import type { mappings } from './redirect-mappings';
+import type { RedirectMapping } from './redirect-mappings';
 import type { Cleaned, InstancePickMode, SerializedService } from './types';
 
 class RedirectProvider {
@@ -7,7 +7,7 @@ class RedirectProvider {
 	private mode: InstancePickMode;
 
 	constructor(
-		mapping: (typeof mappings)[0],
+		mapping: RedirectMapping,
 		mappedServices: Array<SerializedService>,
 		mode: InstancePickMode = 'first',
 	) {

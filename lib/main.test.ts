@@ -1,5 +1,7 @@
+/** biome-ignore-all lint/style/noNonNullAssertion: the test asserts the Twitter mapping exists before using it */
 import { expect, test } from 'vitest';
-import { cleanURL, mappings } from './main';
+import { cleanURL } from './main';
+import { mappings } from './redirect-mappings';
 
 test('main does not add encoding', async () => {
 	const input = 'https://example.com/?arg=1&arg=https://yo.com#hash';

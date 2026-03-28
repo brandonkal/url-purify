@@ -5,8 +5,10 @@ import { sha256 } from './tools';
 import type {
 	Cleaned,
 	InstancePickMode,
+	RedirectMapping,
 	SerializedProvider,
 	SerializedRules,
+	SerializedService,
 	SerializedServices,
 } from './types';
 
@@ -33,7 +35,7 @@ interface URLPurifyConfig {
 	instancePickMode?: InstancePickMode;
 }
 
-class URLPurify {
+export class URLPurify {
 	private referralMarketing: boolean;
 	private instancePickMode: InstancePickMode;
 	private onFetchedRules?: (newHash: string, newRules: SerializedRules) => void;
@@ -281,12 +283,13 @@ export async function cleanURL(url: string, embed = false) {
 	return cleaned;
 }
 
-export {
-	type Cleaned,
-	mappings,
-	type SerializedProvider,
-	type SerializedRules,
-	type SerializedServices,
-	URLPurify,
-	type URLPurifyConfig,
+export type {
+	Cleaned,
+	InstancePickMode,
+	RedirectMapping,
+	SerializedProvider,
+	SerializedRules,
+	SerializedService,
+	SerializedServices,
+	URLPurifyConfig,
 };

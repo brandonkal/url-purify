@@ -32,9 +32,16 @@ interface Cleaned {
 	youtube_id?: string;
 }
 
+interface RedirectMapping {
+	name: string;
+	urlPattern: string;
+	targets: string[];
+}
+
 export type {
 	Cleaned,
 	InstancePickMode,
+	RedirectMapping,
 	SerializedProvider,
 	SerializedRules,
 	SerializedService,

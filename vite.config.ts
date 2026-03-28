@@ -9,7 +9,6 @@ export default defineConfig({
 			entry: 'lib/main.ts',
 			fileName: (format) => `main.${format}.js`,
 			formats: ['es'],
-			name: '@mkljczk/clearurls',
 		},
 		target: 'esnext',
 		sourcemap: true,

@@ -4,6 +4,9 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+# [4.1.0] Fix type definitions
+- feat: support YouTube query params
+
 # [4.0.0] Fix type definitions
 - BREAKING: remove embed parameter and compute YouTube URL by default
 - If normalized YouTube URL differs, increment changed count.
@@ -42,7 +45,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     - [#1301](https://gitlab.com/ClearURLs/ClearUrls/-/issues/1301)
     - [#1302](https://gitlab.com/ClearURLs/ClearUrls/-/issues/1302)
     - [#1305](https://gitlab.com/ClearURLs/ClearUrls/-/issues/1305)
-    
+
 ### Compatibility note
 - Require Firefox >= 55
 - Require Chrome >= 37
@@ -89,7 +92,7 @@ Special thanks to [SunsetTechuila](https://github.com/SunsetTechuila) for provid
 - Require Chrome >= 37
 
 ### Changed
-- The popup window is now responsive 
+- The popup window is now responsive
 
 ## [1.25.0] - 2022-07-27
 
@@ -301,7 +304,7 @@ Special thanks to [SunsetTechuila](https://github.com/SunsetTechuila) for provid
 ### Changed
 - Updated all translation
 - Changed badged font color to #FFFFFF
-- Changed watchdog behavior as follows [#428](https://gitlab.com/KevinRoebert/ClearUrls/issues/428), [#431](https://gitlab.com/KevinRoebert/ClearUrls/issues/431), [#429](https://gitlab.com/KevinRoebert/ClearUrls/issues/429): 
+- Changed watchdog behavior as follows [#428](https://gitlab.com/KevinRoebert/ClearUrls/issues/428), [#431](https://gitlab.com/KevinRoebert/ClearUrls/issues/431), [#429](https://gitlab.com/KevinRoebert/ClearUrls/issues/429):
    - Increased watchdog interval to 60 seconds
    - Executed watchdog only if ClearURLs is also active
    - Watchdog restarts ClearURLs at most 3 times and only if ClearURLs has rules

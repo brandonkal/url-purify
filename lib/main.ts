@@ -269,6 +269,83 @@ export async function init() {
 const youTubeRegex =
 	/(?:youtube(?:-nocookie)?\.com\/(?:embed\/|(?:watch\?.*?[?&]v=)|(?:v\/)|(?:(?!c\/).+\/)|(?:.*[?&]v=)|(?:\S*?[?&]v=)|\S*?\/)?|youtu\.be\/)([a-zA-Z0-9_-]{6,11})/;
 
+const supportedYouTubeEmbedParams = new Set([
+	'autoplay',
+	'cc_lang_pref',
+	'cc_load_policy',
+	'color',
+	'controls',
+	'disablekb',
+	'enablejsapi',
+	'end',
+	'fs',
+	'hl',
+	'iv_load_policy',
+	'list',
+	'listType',
+	'loop',
+	'modestbranding',
+	'origin',
+	'playlist',
+	'playsinline',
+	'rel',
+	'start',
+	'widget_referrer',
+]);
+
+function parseYouTubeTimeToSeconds(value: string) {
+	if (/^\d+$/.test(value)) return value;
+
+	const match = value.match(
+		/^(?:(?<hours>\d+)h)?(?:(?<minutes>\d+)m)?(?:(?<seconds>\d+)s)?$/,
+	);
+	if (!match?.groups) return;
+
+	const hours = Number(match.groups.hours ?? '0');
+	const minutes = Number(match.groups.minutes ?? '0');
+	const seconds = Number(match.groups.seconds ?? '0');
+	const totalSeconds = hours * 3600 + minutes * 60 + seconds;
+
+	return totalSeconds > 0 ? String(totalSeconds) : undefined;
+}
+
+function buildYouTubeEmbedUrl(url: string, ytId: string) {
+	const inputUrl = new URL(url);
+	const embedParams = new URLSearchParams();
+
+	embedParams.set('mute', '1');
+	embedParams.set('autoplay', '1');
+
+	for (const [key, value] of inputUrl.searchParams.entries()) {
+		if (supportedYouTubeEmbedParams.has(key)) {
+			embedParams.set(key, value);
+		}
+	}
+
+	const startParam =
+		inputUrl.searchParams.get('start') ??
+		inputUrl.searchParams.get('t') ??
+		inputUrl.searchParams.get('time_continue');
+	const startSeconds = startParam
+		? parseYouTubeTimeToSeconds(startParam)
+		: undefined;
+
+	if (startSeconds) {
+		embedParams.set('start', startSeconds);
+	}
+
+	if (
+		embedParams.get('loop') === '1' &&
+		!embedParams.has('playlist') &&
+		!embedParams.has('list') &&
+		ytId
+	) {
+		embedParams.set('playlist', ytId);
+	}
+
+	return `https://www.youtube-nocookie.com/embed/${ytId}?${embedParams.toString()}`;
+}
+
 /** cleanURL provides a simple function to clean a URL. It calls init() if required. */
 export async function cleanURL(url: string) {
 	const purify = await init();
@@ -276,13 +353,11 @@ export async function cleanURL(url: string) {
 	if (youTubeRegex.test(cleaned.url)) {
 		const yt_id = youTubeRegex.exec(cleaned.url)?.[1];
 		if (!yt_id) return cleaned;
-		const nextUrl = `https://www.youtube.com/watch?v=${yt_id}`;
-		if (cleaned.url !== nextUrl) {
-			cleaned.changes += 1;
-			cleaned.url = nextUrl;
-		}
-		cleaned.embed_url = `https://www.youtube-nocookie.com/embed/${yt_id}?mute=1&autoplay=1`;
 		cleaned.youtube_id = yt_id;
+		const tParam = new URL(cleaned.url).searchParams.get('t');
+		cleaned.url = `https://www.youtube.com/watch?v=${yt_id}${tParam ? `&t=${tParam}` : ''}`;
+
+		cleaned.embed_url = buildYouTubeEmbedUrl(url, yt_id);
 	}
 	return cleaned;
 }

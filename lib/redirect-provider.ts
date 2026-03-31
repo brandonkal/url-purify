@@ -30,7 +30,7 @@ class RedirectProvider {
 			return {
 				url,
 				changes: 0,
-				redirect: true,
+				redirect: false,
 			};
 		}
 
